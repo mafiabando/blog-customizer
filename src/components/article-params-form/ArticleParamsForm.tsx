@@ -21,14 +21,17 @@ type ArticleParamsFormProps = {
 };
 
 export const ArticleParamsForm = ({
+	articleState,
 	updateArticleState,
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [fontFamily, setFontFamily] = useState(fontFamilyOptions[0]);
-	const [fontSize, setFontSize] = useState(fontSizeOptions[0]);
-	const [fontColor, setFontColor] = useState(fontColors[0]);
-	const [backgroundColor, setBackgroundColor] = useState(backgroundColors[0]);
-	const [contentWidth, setContentWidth] = useState(contentWidthArr[0]);
+	const [fontFamily, setFontFamily] = useState(articleState.fontFamilyOption);
+	const [fontSize, setFontSize] = useStateq(articleState.fontSizeOption);
+	const [fontColor, setFontColor] = useState(articleState.fontColor);
+	const [backgroundColor, setBackgroundColor] = useState(
+		articleState.backgroundColor
+	);
+	const [contentWidth, setContentWidth] = useState(articleState.contentWidth);
 
 	const toggleSidebar = () => {
 		setIsOpen((prev) => !prev);
