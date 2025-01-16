@@ -13,7 +13,7 @@ import {
 } from 'src/constants/articleProps';
 
 import clsx from 'clsx';
-import styles from './ArticleParamsForm.module.scss';
+import style from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormProps = {
 	articleState: ArticleStateType;
@@ -63,9 +63,9 @@ export const ArticleParamsForm = ({
 		<>
 			<ArrowButton isOpen={isOpen} onClick={toggleSidebar} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				className={clsx(style.container, { [style.container_open]: isOpen })}>
 				<form
-					className={styles.form}
+					className={style.form}
 					onSubmit={handleSubmit}
 					onReset={handleReset}>
 					<div>
@@ -105,7 +105,7 @@ export const ArticleParamsForm = ({
 							title='Ширина контента'
 						/>
 					</div>
-					<div className={styles.bottomContainer}>
+					<div className={style.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
