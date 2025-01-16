@@ -48,12 +48,26 @@ export const ArticleParamsForm = ({
 		updateArticleState(newState);
 	};
 
+	const handleReset = () => {
+		const resetState = {
+			fontFamilyOption: fontFamilyOptions[0],
+			fontSizeOption: fontSizeOptions[0],
+			fontColor: fontColors[0],
+			backgroundColor: backgroundColors[0],
+			contentWidth: contentWidthArr[0],
+		};
+		updateArticleState(resetState);
+	};
+
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={toggleSidebar} />
 			<aside
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
-				<form className={styles.form} onSubmit={handleSubmit}>
+				<form
+					className={styles.form}
+					onSubmit={handleSubmit}
+					onReset={handleReset}>
 					<div>
 						<Select
 							selected={fontFamily}
