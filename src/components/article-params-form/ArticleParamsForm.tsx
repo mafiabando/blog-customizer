@@ -26,7 +26,7 @@ export const ArticleParamsForm = ({
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [fontFamily, setFontFamily] = useState(articleState.fontFamilyOption);
-	const [fontSize, setFontSize] = useStateq(articleState.fontSizeOption);
+	const [fontSize, setFontSize] = useState(articleState.fontSizeOption);
 	const [fontColor, setFontColor] = useState(articleState.fontColor);
 	const [backgroundColor, setBackgroundColor] = useState(
 		articleState.backgroundColor
