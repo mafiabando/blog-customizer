@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -17,12 +17,12 @@ import style from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormProps = {
 	articleState: ArticleStateType;
-	updateArticleState: (newState: ArticleStateType) => void;
+	setArticleState: (newState: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = ({
 	articleState,
-	updateArticleState,
+	setArticleState,
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [fontFamily, setFontFamily] = useState(articleState.fontFamilyOption);
@@ -33,9 +33,12 @@ export const ArticleParamsForm = ({
 	);
 	const [contentWidth, setContentWidth] = useState(articleState.contentWidth);
 
+	const sidebarRef = useRef<HTMLDivElement>(null);
+
 	const toggleSidebar = () => {
 		setIsOpen((prev) => !prev);
 	};
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const newState = {
@@ -45,7 +48,7 @@ export const ArticleParamsForm = ({
 			backgroundColor: backgroundColor,
 			contentWidth: contentWidth,
 		};
-		updateArticleState(newState);
+		setArticleState(newState);
 	};
 
 	const handleReset = () => {
@@ -56,13 +59,45 @@ export const ArticleParamsForm = ({
 			backgroundColor: backgroundColors[0],
 			contentWidth: contentWidthArr[0],
 		};
-		updateArticleState(resetState);
+		setArticleState(resetState);
+		setFontFamily(resetState.fontFamilyOption);
+		setFontSize(resetState.fontSizeOption);
+		setFontColor(resetState.fontColor);
+		setBackgroundColor(resetState.backgroundColor);
+		setContentWidth(resetState.contentWidth);
 	};
+
+	const handleClickOutside = (e: MouseEvent) => {
+		if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+			setIsOpen(false);
+		}
+	};
+
+	const handleClickEsc = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			setIsOpen(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+			document.addEventListener('keydown', handleClickEsc);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('keydown', handleClickEsc);
+		}
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('keydown', handleClickEsc);
+		};
+	}, [isOpen]);
 
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={toggleSidebar} />
 			<aside
+				ref={sidebarRef}
 				className={clsx(style.container, { [style.container_open]: isOpen })}>
 				<form
 					className={style.form}
